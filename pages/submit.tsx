@@ -109,7 +109,7 @@ const Submit = () => {
                 />
               </div>
               <p className="block text-xs font-medium text-gray-600 pt-2">
-                Type in 0 if you got an "X"
+                Type in 0 if you got an &quot;X&quot;
               </p>
             </div>
 
