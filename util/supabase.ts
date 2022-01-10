@@ -61,7 +61,8 @@ const checkWord = async (SubmissionInfo: Submission) => {
       error: true,
       message: "Error fetching word",
     };
-  } else {
+  }
+  if (data) {
     if (data.length === 0) {
       return {
         error: true,
@@ -77,6 +78,11 @@ const checkWord = async (SubmissionInfo: Submission) => {
         };
       }
     }
+  } else {
+    return {
+      error: true,
+      message: "Data doesnt exist @berb call him a idiot",
+    };
   }
 };
 
