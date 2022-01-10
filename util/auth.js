@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
 
     const { data: listener } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log(event, session);
         setUser(session?.user ?? null);
         setLoading(false);
       }
@@ -25,16 +26,6 @@ export const AuthProvider = ({ children }) => {
       listener?.unsubscribe();
     };
   }, []);
-
-  //   const signInWithDiscord = async () => {
-  //     console.log("signInWithDiscord");
-  //     const { user, session, error } = await supabase.auth.signIn({
-  //       provider: "discord",
-  //     });
-  //     if (error) {
-  //       console.error(error);
-  //     }
-  //   };
 
   const value = {
     signIn: signInWithDiscord,
