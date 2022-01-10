@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../util/auth";
 import { checkWord } from "../util/supabase";
+import { useRouter } from "next/router";
 import { User } from "@supabase/supabase-js";
 const Submit = () => {
   const [wordleNumber, setWordleNumber] = useState(205);
@@ -8,7 +9,9 @@ const Submit = () => {
   const [guessCount, setGuessCount] = useState(0);
   const [hardMode, setHardMode] = useState(false);
   const [error, setError] = useState<string | null>("");
+
   const { user, signIn } = useAuth();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -20,10 +23,15 @@ const Submit = () => {
       hardMode,
       userId: user.id,
     });
-    if (response.error) {
-      if (response.message) {
-        setError(response.message);
-      }
+    if (response.error === true) {
+      setError(response.message);
+    } else {
+      setError(null);
+      setWordleNumber(205);
+      setWordleWord("");
+      setGuessCount(0);
+      setHardMode(false);
+      router.push("/");
     }
   };
   if (!user) {
