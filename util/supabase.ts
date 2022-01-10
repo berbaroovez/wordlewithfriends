@@ -28,25 +28,57 @@ interface Submission {
   userId: string;
 }
 
+const checkIfUserAlreadySubmitted = async (
+  userId: string,
+  wordleId: number
+) => {
+  const { data, error } = await supabase
+    .from("submissions")
+    .select()
+    .match({ user_id: userId, wordle_id: wordleId });
+  if (error) {
+    console.error(error);
+  }
+  if (data) {
+    if (data.length === 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+};
+
 const submitSubmission = async (
   SubmissionInfo: Submission,
   wordleId: number
 ) => {
-  const { data, error } = await supabase.from("submissions").insert({
-    guess_count: SubmissionInfo.guessCount,
-    hard_mode: SubmissionInfo.hardMode,
-    user_id: SubmissionInfo.userId,
-    wordle_id: wordleId,
-  });
-  if (error) {
-    return {
-      error: true,
-      message: "Something went wrong with submission @ berb and yell at him",
-    };
+  const hasUserSubmitted = await checkIfUserAlreadySubmitted(
+    SubmissionInfo.userId,
+    wordleId
+  );
+
+  if (!hasUserSubmitted) {
+    const { data, error } = await supabase.from("submissions").insert({
+      guess_count: SubmissionInfo.guessCount,
+      hard_mode: SubmissionInfo.hardMode,
+      user_id: SubmissionInfo.userId,
+      wordle_id: wordleId,
+    });
+    if (error) {
+      return {
+        error: true,
+        message: "Something went wrong with submission @ berb and yell at him",
+      };
+    } else {
+      return {
+        error: false,
+        message: "Submission successful",
+      };
+    }
   } else {
     return {
-      error: false,
-      message: "Submission successful",
+      error: true,
+      message: "You have already submitted a word for that wordle number",
     };
   }
 };
@@ -59,7 +91,7 @@ const checkWord = async (SubmissionInfo: Submission) => {
   if (error) {
     return {
       error: true,
-      message: "Error fetching word",
+      message: "Error fetching word @berb call yell at him",
     };
   }
   if (data) {
