@@ -26,6 +26,7 @@ interface Submission {
   guessCount: number;
   hardMode: boolean;
   userId: string;
+  wordleBoard?: string[];
 }
 
 const checkIfUserAlreadySubmitted = async (
@@ -58,12 +59,20 @@ const submitSubmission = async (
   );
 
   if (!hasUserSubmitted) {
-    const { data, error } = await supabase.from("submissions").insert({
+    const insertObject: any = {
       guess_count: SubmissionInfo.guessCount,
       hard_mode: SubmissionInfo.hardMode,
       user_id: SubmissionInfo.userId,
       wordle_id: wordleId,
-    });
+    };
+
+    if (SubmissionInfo.wordleBoard) {
+      insertObject.wordle_board = SubmissionInfo.wordleBoard;
+    }
+
+    const { data, error } = await supabase
+      .from("submissions")
+      .insert(insertObject);
     if (error) {
       return {
         error: true,

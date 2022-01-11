@@ -31,13 +31,14 @@ const ShareCodeInput = () => {
     const hardMode = secondSplit[0].includes("*");
     // setBoard(secondSplit.slice(2));
     const board = secondSplit.slice(2);
-    console.log(wordleNumber);
+
     const response = await checkWord({
       wordleNumber,
       word,
       guessCount: score,
       hardMode,
       userId: user.id,
+      wordleBoard: board,
     });
 
     if (response.error === true) {
