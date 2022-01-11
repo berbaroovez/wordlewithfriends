@@ -118,5 +118,14 @@ const checkWord = async (SubmissionInfo: Submission) => {
   }
 };
 
-export { signInWithDiscord, signOut, checkWord };
+const getUsersSubmissions = async (userId: string) => {
+  const { data, error } = await supabase
+    .from("submissions")
+    .select()
+    .match({ user_id: userId })
+    .order("created_at", { ascending: false });
+
+  console.log(data);
+};
+export { signInWithDiscord, signOut, checkWord, getUsersSubmissions };
 export default supabase;
