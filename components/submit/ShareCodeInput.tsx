@@ -2,6 +2,11 @@ import { useState } from "react";
 import { checkWord } from "../../util/supabase";
 import { useAuth } from "../../util/auth";
 import router from "next/router";
+import {
+  colorBlindToColor,
+  colorToColorBlind,
+  whiteToBlack,
+} from "../../util/functions";
 const ShareCodeInput = () => {
   const [inputValue, setInputValue] = useState("");
   const [word, setWord] = useState("");
@@ -25,13 +30,19 @@ const ShareCodeInput = () => {
     //parse info
     // setScore(parseInt(numbers[0]));
     // console.log(firstSplit);
+
     const wordleNumber = parseInt(firstSplit[1]);
     const score = parseInt(numbers[0]);
-    // setHardMode(secondSplit[0].includes("*"));
     const hardMode = secondSplit[0].includes("*");
-    // setBoard(secondSplit.slice(2));
     const board = secondSplit.slice(2);
 
+    console.log(board);
+    // const newBoard = colorBlindToColor(board);
+    const colorBlindToDefaultBoard = colorBlindToColor(board);
+    const lightModeBoardToDarkModeBoard = whiteToBlack(
+      colorBlindToDefaultBoard
+    );
+    console.log(lightModeBoardToDarkModeBoard);
     const response = await checkWord({
       wordleNumber,
       word,
