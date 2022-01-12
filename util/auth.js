@@ -1,6 +1,6 @@
+import { useRouter } from "next/router";
 import React, { useContext, useState, useEffect, createContext } from "react";
 import supabase, {
-import { router } from 'next/router';
   signInWithDiscord,
   signOut,
   updateUserInfo,
@@ -12,7 +12,7 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  const router = useRouter();
   useEffect(() => {
     /// get session data if there is an active session
     const session = supabase.auth.session();
@@ -23,12 +23,11 @@ export const AuthProvider = ({ children }) => {
       async (event, session) => {
         console.log(event, session);
         if (event === "SIGNED_IN") {
-
           await updateUserInfo(
             session.user.user_metadata.full_name,
             session.user.id
           );
-          router.push('/dashboard');
+          router.push("/dashboard");
         }
         setUser(session?.user ?? null);
         setLoading(false);
