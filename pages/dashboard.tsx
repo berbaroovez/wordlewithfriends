@@ -1,14 +1,22 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../util/auth";
 import { getUsersSubmissions } from "../util/supabase";
 
 const Dashboard = () => {
   const { user, signIn } = useAuth();
-
+  const [submissions, setSubmissions] = useState<any[]>([]);
   useEffect(() => {
-    if (user) {
-      getUsersSubmissions(user.id);
-    }
+    const getSubmissions = async () => {
+      if (user) {
+        const response = await getUsersSubmissions(user.id);
+        if (response.error === false) {
+          if (Array.isArray(response.message)) {
+            setSubmissions(response.message);
+          }
+        }
+      }
+    };
+    getSubmissions();
   }, [user]);
 
   if (!user) {
@@ -29,6 +37,44 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="text-xl font-medium text-center">Dashboard</h1>
+      {submissions && (
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
+          <h1 className="font-bold text-2xl text-center">Your Submissions</h1>
+          <div className="flex flex-wrap -mx-2 gap-4">
+            {submissions.map((submission) => (
+              // <div className="w-full sm:w-1/2 px-2">
+
+              <div className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64">
+                <div className="flex flex-wrap ">
+                  <div className="w-full">
+                    <h1 className="text-xl font-bold">
+                      Wordle {submission.wordle_id.wordle_number}
+                    </h1>
+                    <p className="font-medium text-slate-400">
+                      {submission.wordle_id.word}
+                    </p>
+                  </div>
+                </div>
+                <div className="absolute top-3 right-4">
+                  <p className="text-sm font-medium text-slate-400">
+                    {submission.guess_count}/6{" "}
+                    <span className="absolute">
+                      {submission.hard_mode ? "*" : ""}
+                    </span>
+                  </p>
+                </div>
+
+                <div className="text-center">
+                  {submission.wordle_board.map((row: string) => (
+                    <div className="">{row}</div>
+                  ))}
+                </div>
+              </div>
+              // </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

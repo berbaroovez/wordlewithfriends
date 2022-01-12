@@ -32,7 +32,13 @@ const ShareCodeInput = () => {
     // console.log(firstSplit);
 
     const wordleNumber = parseInt(firstSplit[1]);
-    const score = parseInt(numbers[0]);
+
+    var score: number | string = numbers[0];
+    if (score.toLowerCase() === "x") {
+      score = "0";
+    }
+    score = parseInt(score);
+    // const score = parseInt(numbers[0]);
     const hardMode = secondSplit[0].includes("*");
     const board = secondSplit.slice(2);
 
@@ -49,7 +55,7 @@ const ShareCodeInput = () => {
       guessCount: score,
       hardMode,
       userId: user.id,
-      wordleBoard: board,
+      wordleBoard: lightModeBoardToDarkModeBoard,
     });
 
     if (response.error === true) {

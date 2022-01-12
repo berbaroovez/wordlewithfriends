@@ -130,11 +130,32 @@ const checkWord = async (SubmissionInfo: Submission) => {
 const getUsersSubmissions = async (userId: string) => {
   const { data, error } = await supabase
     .from("submissions")
-    .select()
+    .select(
+      `
+      guess_count,
+      hard_mode,
+      wordle_board,
+      wordle_id (
+        word,
+        wordle_number
+      )
+    `
+    )
     .match({ user_id: userId })
     .order("created_at", { ascending: false });
 
-  console.log(data);
+  if (error) {
+    return {
+      error: true,
+      message: error,
+    };
+  } else {
+    console.log(data);
+    return {
+      error: false,
+      message: data,
+    };
+  }
 };
 export { signInWithDiscord, signOut, checkWord, getUsersSubmissions };
 export default supabase;
