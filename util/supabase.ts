@@ -23,7 +23,7 @@ const signOut = async () => {
 const updateUserInfo = async (username: string, userId: string) => {
   const response = await supabase.from("users").upsert({
     username: username,
-    user_id: userId,
+    id: userId,
     last_login: new Date(),
   });
 

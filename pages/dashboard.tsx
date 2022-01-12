@@ -69,7 +69,7 @@ const Dashboard = () => {
 
                 <div className="text-center">
                   {submission.wordle_board.map((row: string, index: any) => (
-                    <div key={index}>{row}</div>
+                    <div key={Math.random()}>{row}</div>
                   ))}
                 </div>
               </div>
