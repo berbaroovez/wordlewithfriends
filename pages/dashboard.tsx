@@ -44,7 +44,10 @@ const Dashboard = () => {
             {submissions.map((submission) => (
               // <div className="w-full sm:w-1/2 px-2">
 
-              <div className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64">
+              <div
+                className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64"
+                key={submission.id}
+              >
                 <div className="flex flex-wrap ">
                   <div className="w-full">
                     <h1 className="text-xl font-bold">
@@ -65,8 +68,8 @@ const Dashboard = () => {
                 </div>
 
                 <div className="text-center">
-                  {submission.wordle_board.map((row: string) => (
-                    <div className="">{row}</div>
+                  {submission.wordle_board.map((row: string, index: any) => (
+                    <div key={index}>{row}</div>
                   ))}
                 </div>
               </div>

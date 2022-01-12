@@ -1,5 +1,9 @@
 import React, { useContext, useState, useEffect, createContext } from "react";
-import supabase, { signInWithDiscord, signOut } from "./supabase";
+import supabase, {
+  signInWithDiscord,
+  signOut,
+  updateUserInfo,
+} from "./supabase";
 
 //create context for authentication
 const AuthContext = createContext();
@@ -15,8 +19,14 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
 
     const { data: listener } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         console.log(event, session);
+        if (event === "SIGNED_IN") {
+          await updateUserInfo(
+            session.user.user_metadata.full_name,
+            session.user.id
+          );
+        }
         setUser(session?.user ?? null);
         setLoading(false);
       }

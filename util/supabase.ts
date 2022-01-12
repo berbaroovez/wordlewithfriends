@@ -20,6 +20,16 @@ const signOut = async () => {
   }
 };
 
+const updateUserInfo = async (username: string, userId: string) => {
+  const response = await supabase.from("users").upsert({
+    username: username,
+    user_id: userId,
+    last_login: new Date(),
+  });
+
+  console.log("------------------------------------------", response.error);
+  console.log(response.data);
+};
 interface Submission {
   wordleNumber: number;
   word: string;
@@ -157,5 +167,33 @@ const getUsersSubmissions = async (userId: string) => {
     };
   }
 };
-export { signInWithDiscord, signOut, checkWord, getUsersSubmissions };
+
+const getAllSubmissions = async () => {
+  const { data, error } = await supabase.from("submissions").select(`
+    guess_count,
+    user_id(
+      raw_user_meta_data
+    )
+  `);
+  if (error) {
+    return {
+      error: true,
+      message: error,
+    };
+  } else {
+    console.log(data);
+    return {
+      error: false,
+      message: data,
+    };
+  }
+};
+export {
+  signInWithDiscord,
+  signOut,
+  checkWord,
+  getUsersSubmissions,
+  getAllSubmissions,
+  updateUserInfo,
+};
 export default supabase;
