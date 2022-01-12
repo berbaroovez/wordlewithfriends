@@ -23,10 +23,10 @@ export const AuthProvider = ({ children }) => {
       async (event, session) => {
         console.log(event, session);
         if (event === "SIGNED_IN") {
-          await updateUserInfo(
-            session.user.user_metadata.full_name,
-            session.user.id
-          );
+          // await updateUserInfo(
+          //   session.user.user_metadata.full_name,
+          //   session.user.id
+          // );
           router.push("/dashboard");
         }
         setUser(session?.user ?? null);
