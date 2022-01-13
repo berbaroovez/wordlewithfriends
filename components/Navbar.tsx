@@ -19,7 +19,7 @@ const Navbar = () => {
                 src={user.user_metadata.picture}
                 alt="discord profile photo"
               />
-              {user.user_metadata.name}
+              <Link href="/dashboard">{user.user_metadata.name}</Link>
               <div
                 onClick={signOut}
                 className="bg-slate-400 hover:bg-red-500 hover:cursor-pointer p-1 pl-2 ml-4 rounded-sm"
