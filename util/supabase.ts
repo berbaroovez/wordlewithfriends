@@ -172,7 +172,8 @@ const getAllSubmissions = async () => {
   const { data, error } = await supabase.from("submissions").select(`
     guess_count,
     user_id(
-      raw_user_meta_data
+      username,
+      id
     )
   `);
   if (error) {

@@ -5,6 +5,7 @@ import { getUsersSubmissions } from "../util/supabase";
 const Dashboard = () => {
   const { user, signIn } = useAuth();
   const [submissions, setSubmissions] = useState<any[]>([]);
+
   useEffect(() => {
     const getSubmissions = async () => {
       if (user) {

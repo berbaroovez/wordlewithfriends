@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { checkWord } from "../../util/supabase";
 import { useAuth } from "../../util/auth";
-import router from "next/router";
+import { useRouter } from "next/router";
 import {
   colorBlindToColor,
   colorToColorBlind,
@@ -12,7 +12,7 @@ const ShareCodeInput = () => {
   const [word, setWord] = useState("");
   const [error, setError] = useState<string | null>("");
   const { user } = useAuth();
-
+  const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     //     const tetVar = `Wordle 205 5/6
