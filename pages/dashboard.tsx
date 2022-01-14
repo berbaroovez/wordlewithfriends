@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuth } from "../util/auth";
 import { getUsersSubmissions } from "../util/supabase";
@@ -40,7 +41,15 @@ const Dashboard = () => {
       <h1 className="text-xl font-medium text-center">Dashboard</h1>
       {submissions && (
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
-          <h1 className="font-bold text-2xl text-center">Your Submissions</h1>
+          <div className="grid grid-flow-col justify-between">
+            <h1 className="font-bold text-2xl">Your Submissions</h1>
+            <Link href="/submit">
+              <button className="w-40 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                Submit Wordle
+              </button>
+            </Link>
+          </div>
+
           <div className="flex flex-wrap -mx-2 gap-4">
             {submissions.map((submission) => (
               // <div className="w-full sm:w-1/2 px-2">
