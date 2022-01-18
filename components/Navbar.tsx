@@ -1,5 +1,6 @@
 import { useAuth } from "../util/auth";
 import Link from "next/link";
+import DropdownBasic from "./Dropdown";
 const Navbar = () => {
   const { user, signIn, signOut } = useAuth();
 
@@ -19,7 +20,8 @@ const Navbar = () => {
                 src={user.user_metadata.picture}
                 alt="discord profile photo"
               />
-              <Link href="/dashboard">{user.user_metadata.name}</Link>
+              {/* <Link href="/dashboard">{user.user_metadata.name}</Link> */}
+              <DropdownBasic username={user.user_metadata.name} />
               <div
                 onClick={signOut}
                 className="bg-slate-400 hover:bg-red-500 hover:cursor-pointer p-1 pl-2 ml-4 rounded-sm"
