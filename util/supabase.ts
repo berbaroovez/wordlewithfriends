@@ -44,7 +44,7 @@ const checkIfUserAlreadySubmitted = async (
   wordleId: number
 ) => {
   const { data, error } = await supabase
-    .from("midlo_submissions")
+    .from("submissions")
     .select()
     .match({ user_id: userId, wordle_id: wordleId });
   if (error) {
@@ -81,7 +81,7 @@ const submitSubmission = async (
     }
 
     const { data, error } = await supabase
-      .from("midlo_submissions")
+      .from("submissions")
       .insert(insertObject);
     if (error) {
       return {
@@ -139,7 +139,7 @@ const checkWord = async (SubmissionInfo: Submission) => {
 
 const getUsersSubmissions = async (userId: string) => {
   const { data, error } = await supabase
-    .from("midlo_submissions")
+    .from("submissions")
     .select(
       ` guess_count,
       hard_mode,
