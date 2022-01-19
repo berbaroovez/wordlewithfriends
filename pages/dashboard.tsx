@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Wordle from "../components/Wordles/Wordle";
 import { useAuth } from "../util/auth";
 import { getUsersSubmissions } from "../util/supabase";
 
@@ -53,38 +54,14 @@ const Dashboard = () => {
           <div className="flex flex-wrap -mx-2 gap-4">
             {submissions.map((submission) => (
               // <div className="w-full sm:w-1/2 px-2">
-
-              <div
-                className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64"
-                key={submission.id}
-              >
-                <div className="flex flex-wrap ">
-                  <div className="w-full">
-                    <h1 className="text-xl font-bold">
-                      Wordle {submission.wordle_id.wordle_number}
-                    </h1>
-                    <p className="font-medium text-slate-400">
-                      {submission.wordle_id.word}
-                    </p>
-                  </div>
-                </div>
-                <div className="absolute top-3 right-4">
-                  <p className="text-sm font-medium text-slate-400">
-                    {submission.guess_count}/6{" "}
-                    <span className="absolute">
-                      {submission.hard_mode ? "*" : ""}
-                    </span>
-                  </p>
-                </div>
-
-                <div className="text-center">
-                  {submission.wordle_board &&
-                    submission.wordle_board.map((row: string, index: any) => (
-                      <div key={Math.random()}>{row}</div>
-                    ))}
-                </div>
-              </div>
-              // </div>
+              <Wordle
+                id={submission.id}
+                wordleNumber={submission.wordle_id.wordle_number}
+                guessCount={submission.guess_count}
+                word={submission.wordle_id.word}
+                hardMode={submission.hard_mode}
+                wordleBoard={submission.wordle_board}
+              />
             ))}
           </div>
         </div>
