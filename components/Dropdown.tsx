@@ -20,22 +20,22 @@ export default function DropdownBasic({ username }: Props) {
   return (
     <Dropdown
       overlay={[
-        <Dropdown.Item icon={<IconClipboard />}>
+        <Dropdown.Item icon={<IconClipboard />} key={1}>
           {/* <Typography.Text>Dashboard</Typography.Text> */}
           <Link href="/dashboard">
             <a>Dashboard</a>
           </Link>
         </Dropdown.Item>,
-        <Dropdown.Item icon={<IconCopy />}>
-          <Typography.Text>Settings</Typography.Text>
+        <Dropdown.Item icon={<IconCopy />} key={2}>
+          <Typography.Text key={3}>Settings</Typography.Text>
         </Dropdown.Item>,
-        <Divider light />,
-        <Dropdown.Item icon={<IconLogOut />}>
-          <Typography.Text>Log out</Typography.Text>
+        <Divider light key={4} />,
+        <Dropdown.Item key={5} icon={<IconLogOut />}>
+          <Typography.Text key={6}>Log out</Typography.Text>
         </Dropdown.Item>,
-        <Divider light />,
-        <Dropdown.Checkbox checked={checked} onChange={setChecked}>
-          <Typography.Text>Color Blind</Typography.Text>
+        <Divider light key={7} />,
+        <Dropdown.Checkbox checked={checked} onChange={setChecked} key={8}>
+          <Typography.Text key={9}>Color Blind</Typography.Text>
         </Dropdown.Checkbox>,
       ]}
     >

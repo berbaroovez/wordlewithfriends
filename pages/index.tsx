@@ -47,6 +47,7 @@ const Home: NextPage = () => {
             // className=""
             username={submission.users.username}
             id={submission.id}
+            key={submission.id}
             wordleNumber={submission.wordle_id.wordle_number}
             guessCount={submission.guess_count}
             word={submission.wordle_id.word}

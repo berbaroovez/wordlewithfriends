@@ -55,6 +55,7 @@ const Dashboard = () => {
             {submissions.map((submission) => (
               // <div className="w-full sm:w-1/2 px-2">
               <Wordle
+                key={submission.id}
                 id={submission.id}
                 wordleNumber={submission.wordle_id.wordle_number}
                 guessCount={submission.guess_count}
