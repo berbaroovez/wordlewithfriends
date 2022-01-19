@@ -8,12 +8,14 @@ import {
   whiteToBlack,
 } from "../../util/functions";
 const ShareCodeInput = () => {
+  const [submitting, setSubmitting] = useState(false);
   const [inputValue, setInputValue] = useState("");
   const [word, setWord] = useState("");
   const [error, setError] = useState<string | null>("");
   const { user } = useAuth();
   const router = useRouter();
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    setSubmitting(true);
     e.preventDefault();
     //     const tetVar = `Wordle 205 5/6
 
@@ -61,6 +63,7 @@ const ShareCodeInput = () => {
     if (response.error === true) {
       if (response.message) {
         setError(response.message);
+        setSubmitting(false);
       }
     } else {
       router.push("/dashboard");
@@ -116,7 +119,8 @@ const ShareCodeInput = () => {
         <div>
           <button
             type="submit"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 disabled:opacity-75 disabled:cursor-not-allowed hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            {...(submitting ? { disabled: true } : {})}
           >
             submit
           </button>
