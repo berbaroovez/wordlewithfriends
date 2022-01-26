@@ -22,7 +22,7 @@ const Navbar = () => {
               />
               {/* <Link href="/dashboard">{user.user_metadata.name}</Link> */}
               <DropdownBasic username={user.user_metadata.name} />
-              <div
+              {/* <div
                 onClick={signOut}
                 className="bg-slate-400 hover:bg-red-500 hover:cursor-pointer p-1 pl-2 ml-4 rounded-sm"
               >
@@ -42,7 +42,7 @@ const Navbar = () => {
                     />
                   </svg>
                 </div>
-              </div>
+              </div> */}
             </div>
           ) : (
             <button

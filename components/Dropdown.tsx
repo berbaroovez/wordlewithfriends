@@ -1,12 +1,14 @@
 import Link from "next/link";
 import { useState } from "react";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import { useAuth } from "../util/auth";
 interface Props {
   username: string;
 }
 
 export default function DropdownBasic({ username }: Props) {
   const [checked, setChecked] = useState(false);
+  const { signOut } = useAuth();
   return (
     <DropdownMenu.Root>
       <DropdownMenu.Trigger className="bg-slate-600 p-2 rounded text-white">
@@ -22,7 +24,12 @@ export default function DropdownBasic({ username }: Props) {
           <Link href="/leaderboards">Leaderboards</Link>
         </DropdownMenu.Item>
         <DropdownMenu.Separator className="h-px bg-slate-300 m-2" />
-        <DropdownMenu.Item>Sign Out</DropdownMenu.Item>
+        <DropdownMenu.Item
+          className="hover:bg-red-400 cursor-pointer rounded-sm"
+          onClick={signOut}
+        >
+          Sign Out
+        </DropdownMenu.Item>
       </DropdownMenu.Content>
     </DropdownMenu.Root>
   );
