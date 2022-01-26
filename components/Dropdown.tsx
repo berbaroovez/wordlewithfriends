@@ -14,7 +14,7 @@ export default function DropdownBasic({ username }: Props) {
       </DropdownMenu.Trigger>
 
       <DropdownMenu.Content className="bg-slate-600 p-4 rounded text-white text-center">
-        <DropdownMenu.Item className="hover:bg-gray-600">
+        <DropdownMenu.Item className="hover:bg-gray-600" asChild>
           <Link href="/dashboard">Dashboard</Link>
         </DropdownMenu.Item>
         <DropdownMenu.Separator className="h-px bg-slate-300 m-2" />

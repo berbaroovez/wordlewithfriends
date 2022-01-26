@@ -18,7 +18,7 @@ const Wordle = ({
 }: WordleProps) => {
   return (
     <div
-      className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64 break-inside"
+      className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64 break-inside "
       key={id}
     >
       <div className="flex flex-wrap ">

@@ -49,7 +49,7 @@ const Leaderboards = () => {
   interface averageObject {
     users: string;
     points: number[];
-    average: number;
+    average: string | number;
   }
   const calculateAverage = (inputArray: any[]) => {
     const tempArray: any[] = [];
@@ -73,9 +73,10 @@ const Leaderboards = () => {
             ];
           }
         }
-        tempObject.average =
+        const avg =
           tempObject.points.reduce((a, b) => a + b, 0) /
           tempObject.points.length;
+        tempObject.average = avg.toFixed(2);
 
         if (tempObject.points.length > 2) {
           tempArray.push(tempObject);
@@ -108,10 +109,12 @@ const Leaderboards = () => {
 
   return (
     <div>
-      <h1>Leaderboards</h1>
+      <h1 className="text-center font-bold text-xl p-4">Leaderboards</h1>
       <button onClick={() => calculateTotalPoints(submissions)}></button>
-      <div>
-        <table className="shadow-lg bg-white rounded-lg">
+      <div className="flex justify-center gap-8 flex-wrap ">
+        {/* <div className="bg-red-400 w-28 h-28"></div>
+        <div className="bg-red-400 w-28 h-28"></div> */}
+        <table className="shadow-lg bg-white rounded-lg w-40 ">
           <thead className="">
             <tr>
               <th className="bg-blue-300 text-left px-8 py-4 rounded-tl-lg">
@@ -131,9 +134,8 @@ const Leaderboards = () => {
             ))}
           </tbody>
         </table>
-      </div>
-      <div>
-        <table className="shadow-lg bg-white rounded-lg">
+
+        <table className="shadow-lg bg-white rounded-lg w-40">
           <thead className="">
             <tr>
               <th className="bg-blue-300 text-left px-8 py-4 rounded-tl-lg">
