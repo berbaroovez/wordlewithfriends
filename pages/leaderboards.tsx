@@ -52,6 +52,7 @@ const Leaderboards = () => {
     average: string | number;
   }
   const calculateAverage = (inputArray: any[]) => {
+    console.log("INPUT ARRAY", inputArray);
     const tempArray: any[] = [];
     const alreadyChecked: any[] = [];
     for (let i = 0; i < inputArray.length; i++) {
@@ -67,10 +68,14 @@ const Leaderboards = () => {
 
         for (let j = i; j < inputArray.length; j++) {
           if (inputArray[i].users.id === inputArray[j].users.id) {
-            tempObject.points = [
-              ...tempObject.points,
-              inputArray[j].guess_count,
-            ];
+            if (inputArray[j].guess_count === 0) {
+              tempObject.points = [...tempObject.points, 7];
+            } else {
+              tempObject.points = [
+                ...tempObject.points,
+                inputArray[j].guess_count,
+              ];
+            }
           }
         }
         const avg =

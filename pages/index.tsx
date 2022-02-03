@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useAuth } from "../util/auth";
 import supabase, { getAllSubmissions } from "../util/supabase";
 import { useEffect, useState } from "react";
-import Wordle from "../components/Wordles/Wordle";
+import ThreeDWordle from "../components/3dWordle";
 const Home: NextPage = () => {
   const { user, signIn } = useAuth();
   const [submissions, setSubmissions] = useState<any[]>([]);
@@ -40,23 +40,7 @@ const Home: NextPage = () => {
           </button>
         )}
       </div>
-      {/* <div className=" grid gap-4 grid-cols-4">
-        {submissions?.map((submission) => (
-          // <div className="w-full sm:w-1/2 px-2">
-
-          <Wordle
-            // className=""
-            username={submission.users.username}
-            id={submission.id}
-            key={submission.id}
-            wordleNumber={submission.wordle_id.wordle_number}
-            guessCount={submission.guess_count}
-            word={submission.wordle_id.word}
-            hardMode={submission.hard_mode}
-            wordleBoard={submission.wordle_board}
-          />
-        ))}
-      </div> */}
+      {/* <ThreeDWordle /> */}
     </div>
   );
 };

@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "@radix-ui/react-dropdown-menu": "^0.1.4",
+    "@react-three/drei": "^8.6.4",
+    "@react-three/fiber": "^7.0.25",
     "@supabase/supabase-js": "^1.29.1",
     "@supabase/ui": "^0.36.2",
     "next": "12.0.7",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "three": "^0.136.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.1",
