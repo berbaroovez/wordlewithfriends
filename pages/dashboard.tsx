@@ -142,14 +142,14 @@ const Dashboard = () => {
       }
     }
 
-    // dispatch({
-    //   type: ActionTypes.UPDATE_ALL,
-    //   payload: {
-    //     worseWord: worseWord.word,
-    //     wordsUnderThree: underThreeCount,
-    //     currentStreak: streak,
-    //   },
-    // });
+    dispatch({
+      type: ActionTypes.UPDATE_ALL,
+      payload: {
+        worseWord: worseWord.word,
+        wordsUnderThree: underThreeCount,
+        currentStreak: streak,
+      },
+    });
   };
   useEffect(() => {
     const getSubmissions = async () => {
@@ -189,9 +189,9 @@ const Dashboard = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
           {state && (
             <StatDisplay
-              worseWord={"test"}
-              wordsUnderThree={0}
-              currentStreak={5}
+              worseWord={state.worseWord}
+              wordsUnderThree={state.wordsUnderThree}
+              currentStreak={state.currentStreak}
             />
           )}
 
