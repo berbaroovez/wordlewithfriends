@@ -5,32 +5,6 @@ import { useAuth } from "../util/auth";
 import { getUsersSubmissions, GetUserSubmissionsType } from "../util/supabase";
 import StatDisplay from "./../components/Dashboard/StatDisplay";
 
-enum ActionTypes {
-  WORSE_WORD = "WORSE_WORD",
-  WORDS_UNDER_THREE = "WORDS_UNDER_THREE",
-  CURRENT_STREAK = "CURRENT_STREAK",
-  UPDATE_ALL = "UPDATE_ALL",
-}
-
-type ActionOptions =
-  | { type: ActionTypes.WORDS_UNDER_THREE; payload: number }
-  | { type: ActionTypes.WORSE_WORD; payload: string }
-  | { type: ActionTypes.CURRENT_STREAK; payload: number }
-  | {
-      type: ActionTypes.UPDATE_ALL;
-      payload: {
-        worseWord: string;
-        wordsUnderThree: number;
-        currentStreak: number;
-      };
-    };
-
-interface StateProps {
-  worseWord: string;
-  wordsUnderThree: number;
-  currentStreak: number;
-}
-
 // type Visibility = "all" | "completed" | "active";
 // interface State {
 //   todos: {
@@ -73,30 +47,29 @@ interface StateProps {
 const Dashboard = () => {
   const { user, signIn } = useAuth();
   const [submissions, setSubmissions] = useState<any[]>([]);
-  const initialState = {};
-  const reducer = (state: StateProps, action: ActionOptions) => {
-    const { type, payload } = action;
+  // const reducer = (state: StateProps, action: ActionOptions) => {
+  //   const { type, payload } = action;
 
-    switch (type) {
-      case ActionTypes.WORDS_UNDER_THREE:
-        return { ...state, wordsUnderThree: payload };
+  //   switch (type) {
+  //     case ActionTypes.WORDS_UNDER_THREE:
+  //       return { ...state, wordsUnderThree: payload };
 
-      case ActionTypes.WORSE_WORD:
-        return { ...state, worseWord: payload };
+  //     case ActionTypes.WORSE_WORD:
+  //       return { ...state, worseWord: payload };
 
-      case ActionTypes.CURRENT_STREAK:
-        return { ...state, currentStreak: payload };
-      case ActionTypes.UPDATE_ALL:
-        console.log("payload is type", typeof payload);
-        //check if payload is an object
-        if (typeof payload === "object") {
-          return { ...state, ...payload };
-        }
-        return state;
-      default:
-        return state;
-    }
-  };
+  //     case ActionTypes.CURRENT_STREAK:
+  //       return { ...state, currentStreak: payload };
+  //     case ActionTypes.UPDATE_ALL:
+  //       console.log("payload is type", typeof payload);
+  //       //check if payload is an object
+  //       if (typeof payload === "object") {
+  //         return { ...state, ...payload };
+  //       }
+  //       return state;
+  //     default:
+  //       return state;
+  //   }
+  // };
   //@ts-ignore
   const [state, dispatch] = useReducer(reducer, {
     worseWord: "",
@@ -141,8 +114,6 @@ const Dashboard = () => {
         break;
       }
     }
-
-    dispatch({ type: ActionTypes.WORDS_UNDER_THREE, payload: underThreeCount });
   };
   useEffect(() => {
     const getSubmissions = async () => {
@@ -182,9 +153,9 @@ const Dashboard = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
           {state && (
             <StatDisplay
-              worseWord={state.worseWord}
-              wordsUnderThree={state.wordsUnderThree}
-              currentStreak={state.currentStreak}
+              worseWord={"poop"}
+              wordsUnderThree={0}
+              currentStreak={0}
             />
           )}
 
