@@ -142,14 +142,7 @@ const Dashboard = () => {
       }
     }
 
-    dispatch({
-      type: ActionTypes.UPDATE_ALL,
-      payload: {
-        worseWord: worseWord.word,
-        wordsUnderThree: underThreeCount,
-        currentStreak: streak,
-      },
-    });
+    dispatch({ type: ActionTypes.WORDS_UNDER_THREE, payload: underThreeCount });
   };
   useEffect(() => {
     const getSubmissions = async () => {
