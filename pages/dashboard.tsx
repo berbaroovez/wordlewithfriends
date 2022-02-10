@@ -14,7 +14,13 @@ interface State {
 type Action =
   | { type: "setWorstWord"; worstWord: string }
   | { type: "setWordsUnderThree"; wordsUnderThree: number }
-  | { type: "setStreak"; streak: number };
+  | { type: "setStreak"; streak: number }
+  | {
+      type: "setAll";
+      worstWord: string;
+      wordsUnderThree: number;
+      streak: number;
+    };
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
@@ -24,6 +30,9 @@ const reducer = (state: State, action: Action) => {
       return { ...state, wordsUnderThree: action.wordsUnderThree };
     case "setStreak":
       return { ...state, streak: action.streak };
+
+    case "setAll":
+      return { ...state, ...action };
     default:
       return state;
   }
@@ -114,6 +123,13 @@ const Dashboard = () => {
         break;
       }
     }
+
+    dispatch({
+      type: "setAll",
+      worstWord: worseWord.word,
+      wordsUnderThree: underThreeCount,
+      streak,
+    });
   };
   useEffect(() => {
     const getSubmissions = async () => {
@@ -153,9 +169,9 @@ const Dashboard = () => {
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
           {state && (
             <StatDisplay
-              worseWord={"poop"}
-              wordsUnderThree={0}
-              currentStreak={0}
+              worseWord={state.worstWord}
+              wordsUnderThree={state.wordsUnderThree}
+              currentStreak={state.streak}
             />
           )}
 
