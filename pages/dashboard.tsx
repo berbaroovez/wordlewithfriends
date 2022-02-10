@@ -8,18 +8,18 @@ import StatDisplay from "./../components/Dashboard/StatDisplay";
 enum ActionTypes {
   WORSE_WORD = "WORSE_WORD",
   WORDS_UNDER_THREE = "WORDS_UNDER_THREE",
-  CURRENT_STREAK = "CURRENT_STREAK",
+  // CURRENT_STREAK = "CURRENT_STREAK",
 }
 
 type ActionOptions =
   | { type: ActionTypes.WORDS_UNDER_THREE; payload: number }
-  | { type: ActionTypes.WORSE_WORD; payload: string }
-  | { type: ActionTypes.CURRENT_STREAK; payload: number };
+  | { type: ActionTypes.WORSE_WORD; payload: string };
+// | { type: ActionTypes.CURRENT_STREAK; payload: number };
 
 interface StateProps {
   worseWord: string;
   wordsUnderThree: number;
-  currentStreak: number;
+  // currentStreak: number;
 }
 
 const Dashboard = () => {
@@ -40,8 +40,8 @@ const Dashboard = () => {
       case ActionTypes.WORSE_WORD:
         return { ...state, worseWord: payload };
 
-      case ActionTypes.CURRENT_STREAK:
-        return { ...state, currentStreak: payload };
+      // case ActionTypes.CURRENT_STREAK:
+      //   return { ...state, currentStreak: payload };
       default:
         return state;
     }
@@ -86,7 +86,7 @@ const Dashboard = () => {
       }
     }
 
-    dispatch({ type: ActionTypes.CURRENT_STREAK, payload: streak });
+    // dispatch({ type: ActionTypes.CURRENT_STREAK, payload: streak });
     dispatch({ type: ActionTypes.WORDS_UNDER_THREE, payload: underThreeCount });
     dispatch({ type: ActionTypes.WORSE_WORD, payload: worseWord.word });
   };
@@ -130,7 +130,7 @@ const Dashboard = () => {
             <StatDisplay
               worseWord={state.worseWord}
               wordsUnderThree={state.wordsUnderThree}
-              currentStreak={state.currentStreak}
+              currentStreak={3}
             />
           )}
 
