@@ -125,42 +125,45 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="text-4xl font-bold text-center">Dashboard</h1>
-
-      {submissions && (
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
-          {state && (
-            <StatDisplay
-              worseWord={state.worstWord}
-              wordsUnderThree={state.wordsUnderThree}
-              currentStreak={state.streak}
-            />
-          )}
-
-          <div className="grid grid-flow-row justify-items-center md:grid-flow-col md:justify-between mb-4">
-            <h1 className="font-bold text-2xl">Your Submissions</h1>
-            <Link href="/submit">
-              <button className="w-40 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Submit Wordle
-              </button>
-            </Link>
-          </div>
-
-          <div className="flex flex-wrap  gap-4 justify-center md:justify-start">
-            {submissions.map((submission) => (
-              // <div className="w-full sm:w-1/2 px-2">
-              <Wordle
-                key={submission.id}
-                id={submission.id}
-                wordleNumber={submission.words.wordle_number}
-                guessCount={submission.guess_count}
-                word={submission.words.word}
-                hardMode={submission.hard_mode}
-                wordleBoard={submission.wordle_board}
-              />
-            ))}
-          </div>
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
+        <div className="flex flex-row  justify-center items-center md:justify-start">
+          <Link href="/submit">
+            <button className="w-40 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ">
+              Submit Wordle
+            </button>
+          </Link>
         </div>
-      )}
+        {submissions && (
+          <>
+            {state && (
+              <StatDisplay
+                worseWord={state.worstWord}
+                wordsUnderThree={state.wordsUnderThree}
+                currentStreak={state.streak}
+              />
+            )}
+
+            <div className="grid grid-flow-row justify-items-center md:grid-flow-col md:justify-between mb-4">
+              <h1 className="font-bold text-2xl">Your Submissions</h1>
+            </div>
+
+            <div className="flex flex-wrap  gap-4 justify-center md:justify-start">
+              {submissions.map((submission) => (
+                // <div className="w-full sm:w-1/2 px-2">
+                <Wordle
+                  key={submission.id}
+                  id={submission.id}
+                  wordleNumber={submission.words.wordle_number}
+                  guessCount={submission.guess_count}
+                  word={submission.words.word}
+                  hardMode={submission.hard_mode}
+                  wordleBoard={submission.wordle_board}
+                />
+              ))}
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };
