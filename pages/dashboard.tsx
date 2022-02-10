@@ -38,45 +38,6 @@ const reducer = (state: State, action: Action) => {
   }
 };
 
-// type Visibility = "all" | "completed" | "active";
-// interface State {
-//   todos: {
-//     id: number;
-//     text: string;
-//     completed: boolean;
-//   }[];
-//   visibility: Visibility;
-// }
-// type Action =
-//   | { type: "add_todo"; id: number; text: string }
-//   | { type: "toggle_todo"; id: number }
-//   | { type: "set_visibility"; visibility: Visibility };
-
-// const reducer = (state: State, action: Action): State => {
-//   switch (action.type) {
-//     case "add_todo":
-//       return {
-//         ...state,
-//         todos: [
-//           ...state.todos,
-//           { id: action.id, text: action.text, completed: false },
-//         ],
-//       };
-//     case "toggle_todo":
-//       return {
-//         ...state,
-//         todos: state.todos.map((todo) =>
-//           todo.id === action.id ? { ...todo, completed: !todo.completed } : todo
-//         ),
-//       };
-//     case "set_visibility":
-//       return {
-//         ...state,
-//         visibility: action.visibility,
-//       };
-//   }
-// };
-
 const Dashboard = () => {
   const { user, signIn } = useAuth();
   const [submissions, setSubmissions] = useState<any[]>([]);
