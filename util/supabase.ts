@@ -176,24 +176,20 @@ const getUsersSubmissions = async (userId: string) => {
       error: true,
       message: error,
     };
-  } else {
-    //no error is returned by we must still check if data exists to sort it to please typescript
-
-    if (data) {
-      return {
-        error: false,
-        //we need to sort here because i couldnt figure out how to do the order in the query
-        message: data.sort(
-          (a, b) => b.words.wordle_number - a.words.wordle_number
-        ),
-      };
-    } else {
-      return {
-        error: true,
-        message: [],
-      };
-    }
   }
+  if (data) {
+    return {
+      error: false,
+      //we need to sort here because i couldnt figure out how to do the order in the query
+      message: data.sort(
+        (a, b) => b.words.wordle_number - a.words.wordle_number
+      ),
+    };
+  }
+  return {
+    error: true,
+    message: "No submissions found",
+  };
 };
 
 const getAllSubmissions = async () => {
