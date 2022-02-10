@@ -97,6 +97,7 @@ const Dashboard = () => {
         return state;
     }
   };
+  //@ts-ignore
   const [state, dispatch] = useReducer(reducer, {
     worseWord: "",
     wordsUnderThree: 0,
