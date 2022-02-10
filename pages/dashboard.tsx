@@ -5,6 +5,30 @@ import { useAuth } from "../util/auth";
 import { getUsersSubmissions, GetUserSubmissionsType } from "../util/supabase";
 import StatDisplay from "./../components/Dashboard/StatDisplay";
 
+interface State {
+  worstWord: string;
+  wordsUnderThree: number;
+  streak: number;
+}
+
+type Action =
+  | { type: "setWorstWord"; worstWord: string }
+  | { type: "setWordsUnderThree"; wordsUnderThree: number }
+  | { type: "setStreak"; streak: number };
+
+const reducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "setWorstWord":
+      return { ...state, worstWord: action.worstWord };
+    case "setWordsUnderThree":
+      return { ...state, wordsUnderThree: action.wordsUnderThree };
+    case "setStreak":
+      return { ...state, streak: action.streak };
+    default:
+      return state;
+  }
+};
+
 // type Visibility = "all" | "completed" | "active";
 // interface State {
 //   todos: {
@@ -47,34 +71,10 @@ import StatDisplay from "./../components/Dashboard/StatDisplay";
 const Dashboard = () => {
   const { user, signIn } = useAuth();
   const [submissions, setSubmissions] = useState<any[]>([]);
-  // const reducer = (state: StateProps, action: ActionOptions) => {
-  //   const { type, payload } = action;
-
-  //   switch (type) {
-  //     case ActionTypes.WORDS_UNDER_THREE:
-  //       return { ...state, wordsUnderThree: payload };
-
-  //     case ActionTypes.WORSE_WORD:
-  //       return { ...state, worseWord: payload };
-
-  //     case ActionTypes.CURRENT_STREAK:
-  //       return { ...state, currentStreak: payload };
-  //     case ActionTypes.UPDATE_ALL:
-  //       console.log("payload is type", typeof payload);
-  //       //check if payload is an object
-  //       if (typeof payload === "object") {
-  //         return { ...state, ...payload };
-  //       }
-  //       return state;
-  //     default:
-  //       return state;
-  //   }
-  // };
-  //@ts-ignore
   const [state, dispatch] = useReducer(reducer, {
-    worseWord: "",
+    worstWord: "",
     wordsUnderThree: 0,
-    currentStreak: 0,
+    streak: 0,
   });
 
   const calculateStats = (submissionArray: GetUserSubmissionsType[]) => {
