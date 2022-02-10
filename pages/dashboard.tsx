@@ -52,7 +52,12 @@ const Dashboard = () => {
       case ActionTypes.CURRENT_STREAK:
         return { ...state, currentStreak: payload };
       case ActionTypes.UPDATE_ALL:
-        return { ...state, ...payload };
+        console.log("payload is type", typeof payload);
+        //check if payload is an object
+        if (typeof payload === "object") {
+          return { ...state, ...payload };
+        }
+        return state;
       default:
         return state;
     }
