@@ -1,4 +1,23 @@
 import { createClient } from "@supabase/supabase-js";
+import { definitions } from "../types/supabase";
+
+interface GetUserSubmissionsType
+  extends Omit<definitions["submissions"], "wordle_id"> {
+  words: {
+    word: string;
+    wordle_number: number;
+  };
+}
+
+export type { GetUserSubmissionsType };
+
+// guess_count,
+//       hard_mode,
+//       wordle_board,
+//       wordle_id (
+//         word,
+//         wordle_number
+//       )
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -139,19 +158,18 @@ const checkWord = async (SubmissionInfo: Submission) => {
 
 const getUsersSubmissions = async (userId: string) => {
   const { data, error } = await supabase
-    .from("submissions")
+    .from<GetUserSubmissionsType>("submissions")
     .select(
       ` guess_count,
       hard_mode,
       wordle_board,
-      wordle_id (
+      words (
         word,
         wordle_number
       )
     `
     )
-    .match({ user_id: userId })
-    .order("created_at", { ascending: false });
+    .match({ user_id: userId });
 
   if (error) {
     return {
@@ -162,7 +180,10 @@ const getUsersSubmissions = async (userId: string) => {
     console.log(data);
     return {
       error: false,
-      message: data,
+      //we need to sort here because i couldnt figure out how to do the order in the query
+      message: data.sort(
+        (a, b) => b.words.wordle_number - a.words.wordle_number
+      ),
     };
   }
 };
