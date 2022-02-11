@@ -83,7 +83,7 @@ const Leaderboards = () => {
           tempObject.points.length;
         tempObject.average = avg.toFixed(2);
 
-        if (tempObject.points.length > 2) {
+        if (tempObject.points.length > 4) {
           tempArray.push(tempObject);
         }
       }
