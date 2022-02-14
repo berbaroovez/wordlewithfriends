@@ -322,7 +322,7 @@ const Compare = () => {
           <div>
             {combinedUserData && combinedUserData.length > 0 ? (
               <Wordle
-                id={
+                key={
                   combinedUserData[state.ViewingIndex].loggedInUser.words
                     .wordle_number
                 }
@@ -404,13 +404,15 @@ const Compare = () => {
             }}
           >
             {userList?.map((user) => (
-              <option value={user.id}>{user.username}</option>
+              <option key={user.id} value={user.id}>
+                {user.username}
+              </option>
             ))}
           </select>
           <div>
             {combinedUserData && combinedUserData.length > 0 ? (
               <Wordle
-                id={
+                key={
                   combinedUserData[state.ViewingIndex].selectedUser.words
                     .wordle_number
                 }

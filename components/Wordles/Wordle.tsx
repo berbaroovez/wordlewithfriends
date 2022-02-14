@@ -1,5 +1,4 @@
 interface WordleProps {
-  id: number;
   guessCount: number;
   hardMode: boolean;
   wordleBoard: string[];
@@ -8,7 +7,6 @@ interface WordleProps {
   username?: string;
 }
 const Wordle = ({
-  id,
   guessCount,
   hardMode,
   wordleBoard,
@@ -17,10 +15,7 @@ const Wordle = ({
   username,
 }: WordleProps) => {
   return (
-    <div
-      className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64 break-inside "
-      key={id}
-    >
+    <div className="bg-white shadow-md rounded-lg px-2 py-3 relative w-64 break-inside ">
       <div className="flex flex-wrap ">
         <div className="w-full">
           {username && <p className="text-sm text-gray-600">{username}</p>}

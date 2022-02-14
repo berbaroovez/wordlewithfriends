@@ -152,7 +152,7 @@ const Dashboard = () => {
                 // <div className="w-full sm:w-1/2 px-2">
                 <Wordle
                   key={submission.id}
-                  id={submission.id}
+                  // id={submission.id}
                   wordleNumber={submission.words.wordle_number}
                   guessCount={submission.guess_count}
                   word={submission.words.word}
