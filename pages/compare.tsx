@@ -185,13 +185,14 @@ const Compare = () => {
   }, [selectedUser]);
 
   useEffect(() => {
-    console.log("-----------------------------");
-    console.log("selected user =====", selectedUser);
-    console.log("SELECTED USER DATA", selectedUserData);
-    console.log("loggedInUserData USER DATA", loggedInUserData);
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+    // console.log("-----------------------------");
+    // console.log("selected user =====", selectedUser);
+    // console.log("SELECTED USER DATA", selectedUserData);
+    // console.log("loggedInUserData USER DATA", loggedInUserData);
+    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     if (selectedUserData && loggedInUserData) {
-      const data = combineData(selectedUserData, loggedInUserData);
+      console.log("Right before combine", loggedInUserData);
+      const data = combineData(loggedInUserData, selectedUserData);
       console.log("DATA", data);
       setCombinedUserData(data);
       dispatch({ type: "setCombinedDataLength", length: data.length });
@@ -276,15 +277,16 @@ const Compare = () => {
     loggedInUserArray: GetUserSubmissionsType[],
     selectedUserArray: GetUserSubmissionsType[]
   ) => {
-    console.log("insideCombineData", loggedInUserArray, selectedUserArray);
+    // console.log("insideCombineData", loggedInUserArray, selectedUserArray);
     let combinedData: CombinedDataType[] = [];
-
+    console.log("Combing data......", loggedInUserArray);
     for (let i = 0; i < loggedInUserArray.length; i++) {
       for (let j = 0; j < selectedUserArray.length; j++) {
         if (
           loggedInUserArray[i].words.wordle_number ===
           selectedUserArray[j].words.wordle_number
         ) {
+          console.log("Wordle Board", loggedInUserArray[i].wordle_board);
           combinedData.push({
             loggedInUser: loggedInUserArray[i],
             selectedUser: selectedUserArray[j],

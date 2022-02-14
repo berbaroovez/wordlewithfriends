@@ -27,15 +27,17 @@ const Submit = () => {
   return (
     <div>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
-        <button
+        {/* <button
           onClick={() => {
             setUseManuelInput(!useManuelInput);
           }}
           className="bg-slate-400 rounded px-4 py-2 text-sm font-medium text-white w-full"
         >
           {useManuelInput ? "Switch to Code Share" : "Switch to Manual Input"}
-        </button>
-        {useManuelInput ? <ManualInput /> : <ShareCodeInput />}
+        </button> */}
+        {/* {useManuelInput ? <ManualInput /> : <ShareCodeInput />}
+         */}
+        <ShareCodeInput />
       </div>
     </div>
   );
