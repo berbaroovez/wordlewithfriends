@@ -1,3 +1,4 @@
+import { CombinedDataType } from "../types/custom";
 import { GetUserSubmissionsType } from "./supabase";
 
 interface averageObject {
@@ -114,6 +115,32 @@ const guessToPoints = (guess: number) => {
   }
 };
 
+//a function that takes in two GetUserSubmissionsType arrays and combines them where the wordleNumber is the same
+const combineData = (
+  loggedInUserArray: GetUserSubmissionsType[],
+  selectedUserArray: GetUserSubmissionsType[]
+) => {
+  // console.log("insideCombineData", loggedInUserArray, selectedUserArray);
+  let combinedData: CombinedDataType[] = [];
+  console.log("Combing data......", loggedInUserArray);
+  for (let i = 0; i < loggedInUserArray.length; i++) {
+    for (let j = 0; j < selectedUserArray.length; j++) {
+      if (
+        loggedInUserArray[i].words.wordle_number ===
+        selectedUserArray[j].words.wordle_number
+      ) {
+        console.log("Wordle Board", loggedInUserArray[i].wordle_board);
+        combinedData.push({
+          loggedInUser: loggedInUserArray[i],
+          selectedUser: selectedUserArray[j],
+        });
+      }
+    }
+  }
+
+  return combinedData;
+};
+
 export {
   colorBlindToColor,
   colorToColorBlind,
@@ -123,4 +150,5 @@ export {
   calculateCurrentStreak,
   calculateTotalPoints,
   calculateAverage,
+  combineData,
 };

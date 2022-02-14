@@ -15,15 +15,12 @@ import {
   calculateFails,
   calculateTotalPoints,
   calculateWordsInUnderThreeGuesses,
+  combineData,
 } from "../util/functions";
+import { CombinedDataType } from "../types/custom";
 
 // LIU = logged in user
 // SU = selected user
-
-interface CombinedDataType {
-  loggedInUser: GetUserSubmissionsType;
-  selectedUser: GetUserSubmissionsType;
-}
 
 const initalState = {
   LIUAverageGuess: 0,
@@ -60,45 +57,28 @@ interface State {
 }
 
 type Action =
-  | { type: "setLIUAverageGuess"; averageGuess: number | string }
-  | { type: "setLIUWordInThree"; wordInThree: number }
-  | { type: "setLIUFails"; fails: number }
-  | { type: "setLIUStreak"; streak: number }
-  | { type: "setLIUTotalPoints"; totalPoints: number }
-  | { type: "setSUAverageGuess"; averageGuess: number | string }
-  | { type: "setSUWordInThree"; wordInThree: number }
-  | { type: "setSUFails"; fails: number }
-  | { type: "setSUStreak"; streak: number }
-  | { type: "setSUTotalPoints"; totalPoints: number }
   | { type: "incrementIndex" }
   | { type: "decrementIndex" }
   | { type: "setCombinedDataLength"; length: number }
   | { type: "setLIUHasSubmissions"; hasSubmissions: boolean }
   | { type: "setSUHasSubmissions"; hasSubmissions: boolean }
+  | {
+      type: "setUserInfo";
+      LIUAverageGuess: number | string;
+      LIUWordInThree: number;
+      LIUFails: number;
+      LIUStreak: number;
+      LIUTotalPoints: number;
+      SUAverageGuess: number | string;
+      SUWordInThree: number;
+      SUFails: number;
+      SUStreak: number;
+      SUTotalPoints: number;
+    }
   | { type: "reset" };
 
 const reducer = (state: State, action: Action) => {
   switch (action.type) {
-    case "setLIUAverageGuess":
-      return { ...state, LIUAverageGuess: action.averageGuess };
-    case "setLIUWordInThree":
-      return { ...state, LIUWordInThree: action.wordInThree };
-    case "setLIUFails":
-      return { ...state, LIUFails: action.fails };
-    case "setLIUStreak":
-      return { ...state, LIUStreak: action.streak };
-    case "setLIUTotalPoints":
-      return { ...state, LIUTotalPoints: action.totalPoints };
-    case "setSUAverageGuess":
-      return { ...state, SUAverageGuess: action.averageGuess };
-    case "setSUWordInThree":
-      return { ...state, SUWordInThree: action.wordInThree };
-    case "setSUFails":
-      return { ...state, SUFails: action.fails };
-    case "setSUStreak":
-      return { ...state, SUStreak: action.streak };
-    case "setSUTotalPoints":
-      return { ...state, SUTotalPoints: action.totalPoints };
     case "setCombinedDataLength": {
       return { ...state, CombinedDataLength: action.length };
     }
@@ -108,14 +88,26 @@ const reducer = (state: State, action: Action) => {
     case "setSUHasSubmissions": {
       return { ...state, SUHasSubmissions: action.hasSubmissions };
     }
+    case "setUserInfo": {
+      return {
+        ...state,
+        LIUAverageGuess: action.LIUAverageGuess,
+        LIUWordInThree: action.LIUWordInThree,
+        LIUFails: action.LIUFails,
+        LIUStreak: action.LIUStreak,
+        LIUTotalPoints: action.LIUTotalPoints,
+        SUAverageGuess: action.SUAverageGuess,
+        SUWordInThree: action.SUWordInThree,
+        SUFails: action.SUFails,
+        SUStreak: action.SUStreak,
+        SUTotalPoints: action.SUTotalPoints,
+      };
+    }
 
     case "incrementIndex":
-      console.log("incrementing");
       if (state.ViewingIndex == state.CombinedDataLength - 1) {
-        console.log("close to end", state.ViewingIndex);
         return { ...state, ViewingIndex: 0 };
       } else {
-        console.log("normal", state.ViewingIndex);
         return { ...state, ViewingIndex: state.ViewingIndex + 1 };
       }
 
@@ -128,7 +120,6 @@ const reducer = (state: State, action: Action) => {
       }
 
     case "reset":
-      const { LIUHasSubmissions, ...rest } = initalState;
       return { ...initalState, LIUHasSubmissions: state.LIUHasSubmissions };
     default:
       return state;
@@ -150,6 +141,8 @@ const Compare = () => {
 
   const [state, dispatch] = useReducer(reducer, initalState);
 
+  //Pings supabase to get all the users and then we can set the userList
+  // so we can display in the dropdown
   useEffect(() => {
     const getUsers = async () => {
       const response = await getAllUsers();
@@ -164,7 +157,8 @@ const Compare = () => {
     getUsers();
   }, []);
 
-  // grab data for seleced user
+  // when a user is selected from the dropdown we need to get the data for that user
+  //we also reset the state for the page because we need to have new data for the user
   useEffect(() => {
     const getSelectedUserData = async () => {
       if (selectedUser) {
@@ -184,63 +178,31 @@ const Compare = () => {
     getSelectedUserData();
   }, [selectedUser]);
 
+  //once we have we have the data for both users we first combine the data into one array so only have matches where the user have th same wordles submitted
+  // we then also set the states for each user
   useEffect(() => {
-    // console.log("-----------------------------");
-    // console.log("selected user =====", selectedUser);
-    // console.log("SELECTED USER DATA", selectedUserData);
-    // console.log("loggedInUserData USER DATA", loggedInUserData);
-    // console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
     if (selectedUserData && loggedInUserData) {
-      console.log("Right before combine", loggedInUserData);
       const data = combineData(loggedInUserData, selectedUserData);
-      console.log("DATA", data);
       setCombinedUserData(data);
       dispatch({ type: "setCombinedDataLength", length: data.length });
-
-      // set LIU data
       dispatch({
-        type: "setLIUAverageGuess",
-        averageGuess: calculateAverage(loggedInUserData),
-      });
-      dispatch({
-        type: "setLIUWordInThree",
-        wordInThree: calculateWordsInUnderThreeGuesses(loggedInUserData),
-      });
-      dispatch({
-        type: "setLIUFails",
-        fails: calculateFails(loggedInUserData),
-      });
-      dispatch({
-        type: "setLIUStreak",
-        streak: calculateCurrentStreak(loggedInUserData),
-      });
-      dispatch({
-        type: "setLIUTotalPoints",
-        totalPoints: calculateTotalPoints(loggedInUserData),
-      });
-      dispatch({
-        type: "setSUAverageGuess",
-        averageGuess: calculateAverage(selectedUserData),
-      });
-      dispatch({
-        type: "setSUWordInThree",
-        wordInThree: calculateWordsInUnderThreeGuesses(selectedUserData),
-      });
-      dispatch({
-        type: "setSUFails",
-        fails: calculateFails(selectedUserData),
-      });
-      dispatch({
-        type: "setSUStreak",
-        streak: calculateCurrentStreak(selectedUserData),
-      });
-      dispatch({
-        type: "setSUTotalPoints",
-        totalPoints: calculateTotalPoints(selectedUserData),
+        type: "setUserInfo",
+        LIUAverageGuess: calculateAverage(loggedInUserData),
+        LIUWordInThree: calculateWordsInUnderThreeGuesses(loggedInUserData),
+        LIUFails: calculateFails(loggedInUserData),
+        LIUStreak: calculateCurrentStreak(loggedInUserData),
+        LIUTotalPoints: calculateTotalPoints(loggedInUserData),
+        SUAverageGuess: calculateAverage(selectedUserData),
+        SUWordInThree: calculateWordsInUnderThreeGuesses(selectedUserData),
+        SUFails: calculateFails(selectedUserData),
+        SUStreak: calculateCurrentStreak(selectedUserData),
+        SUTotalPoints: calculateTotalPoints(selectedUserData),
       });
     }
   }, [selectedUserData, loggedInUserData]);
 
+  //We grab the the logged in users data and set the state for the logged in user
+  // we also check to make sure they've even made a submissiom before lol
   useEffect(() => {
     const getLoggedInUserData = async () => {
       if (user) {
@@ -250,16 +212,13 @@ const Compare = () => {
             setLoggedInUserData(data);
             dispatch({ type: "setLIUHasSubmissions", hasSubmissions: true });
           }
-
-          // console.log("logged in user data", data);
         }
       }
     };
     getLoggedInUserData();
-
-    console.log(user);
   }, [user]);
 
+  // attempt at reducing repeat code for grabbing user data
   const getUserData = async (userID: string) => {
     const response = await getUsersSubmissions(userID);
 
@@ -270,32 +229,6 @@ const Compare = () => {
         }
       }
     }
-  };
-
-  //a function that takes in two GetUserSubmissionsType arrays and combines them where the wordleNumber is the same
-  const combineData = (
-    loggedInUserArray: GetUserSubmissionsType[],
-    selectedUserArray: GetUserSubmissionsType[]
-  ) => {
-    // console.log("insideCombineData", loggedInUserArray, selectedUserArray);
-    let combinedData: CombinedDataType[] = [];
-    console.log("Combing data......", loggedInUserArray);
-    for (let i = 0; i < loggedInUserArray.length; i++) {
-      for (let j = 0; j < selectedUserArray.length; j++) {
-        if (
-          loggedInUserArray[i].words.wordle_number ===
-          selectedUserArray[j].words.wordle_number
-        ) {
-          console.log("Wordle Board", loggedInUserArray[i].wordle_board);
-          combinedData.push({
-            loggedInUser: loggedInUserArray[i],
-            selectedUser: selectedUserArray[j],
-          });
-        }
-      }
-    }
-
-    return combinedData;
   };
 
   if (!user) {
@@ -395,6 +328,10 @@ const Compare = () => {
           </div>
           <div className="text-red-600 font-bold text-l text-center">
             {combinedUserData?.length === 0 && "No matches between yall"}
+            {!state.LIUHasSubmissions &&
+              "You've never made a submission why are you here"}
+            {!state.SUHasSubmissions &&
+              "The selected user has made no submissions ever?"}
           </div>
         </div>
         <div>
