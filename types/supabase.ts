@@ -484,7 +484,7 @@ export interface definitions {
      */
     id: string;
     /** Format: text */
-    username?: string;
+    username: string;
     /** Format: timestamp without time zone */
     last_login?: string;
   };

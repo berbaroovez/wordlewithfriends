@@ -3,6 +3,7 @@ import { definitions } from "../types/supabase";
 
 interface GetUserSubmissionsType
   extends Omit<definitions["submissions"], "wordle_id"> {
+  wordle_board: string[];
   words: {
     word: string;
     wordle_number: number;
@@ -192,6 +193,31 @@ const getUsersSubmissions = async (userId: string) => {
   };
 };
 
+const getAllUsers = async () => {
+  const { data, error } = await supabase
+    .from<definitions["users"]>("users")
+    .select("*");
+
+  if (error) {
+    return {
+      error: true,
+      message: error,
+    };
+  }
+  if (data) {
+    return {
+      error: false,
+      //sort data by username string
+      message: data.sort((a, b) => a.username.localeCompare(b.username)),
+    };
+  } else {
+    return {
+      error: true,
+      message: "No users found",
+    };
+  }
+};
+
 const getAllSubmissions = async () => {
   const { data, error } = await supabase
 
@@ -227,5 +253,6 @@ export {
   getUsersSubmissions,
   getAllSubmissions,
   updateUserInfo,
+  getAllUsers,
 };
 export default supabase;
