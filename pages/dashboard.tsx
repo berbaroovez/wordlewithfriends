@@ -126,10 +126,15 @@ const Dashboard = () => {
     <div>
       <h1 className="text-4xl font-bold text-center">Dashboard</h1>
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md md:max-w-3xl ">
-        <div className="flex flex-row  justify-center items-center md:justify-start">
+        <div className="flex flex-row  justify-center items-center md:justify-start gap-4">
           <Link href="/submit">
             <button className="w-40 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 ">
               Submit Wordle
+            </button>
+          </Link>
+          <Link href="/compare">
+            <button className="w-40 py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ">
+              compare wordles
             </button>
           </Link>
         </div>
