@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getAllSubmissions } from "../util/supabase";
-
+import { guessToPoints } from "../util/functions";
+import Table from "../components/Leaderboards/Table";
 const Leaderboards = () => {
   const [submissions, setSubmissions] = useState<any[]>([]);
   const [pointsLeaderBoard, setPointsLeaderBoard] = useState<any[]>([]);
@@ -33,9 +34,6 @@ const Leaderboards = () => {
         for (let j = i; j < inputArray.length; j++) {
           if (inputArray[i].users.id === inputArray[j].users.id) {
             // console.log("points", inputArray[j].);
-            console.log(
-              `${inputArray[i].users.username} ${inputArray[j].guess_count}`
-            );
 
             tempObject.total_points += guessToPoints(inputArray[j].guess_count);
           }
@@ -52,7 +50,6 @@ const Leaderboards = () => {
     average: string | number;
   }
   const calculateAverage = (inputArray: any[]) => {
-    console.log("INPUT ARRAY", inputArray);
     const tempArray: any[] = [];
     const alreadyChecked: any[] = [];
     for (let i = 0; i < inputArray.length; i++) {
@@ -91,75 +88,31 @@ const Leaderboards = () => {
     return tempArray.sort((a, b) => a.average - b.average);
   };
 
-  const guessToPoints = (guess: number) => {
-    switch (guess) {
-      case 1:
-        return 6;
-      case 2:
-        return 5;
-      case 3:
-        return 4;
-      case 4:
-        return 3;
-      case 5:
-        return 2;
-      case 6:
-        return 1;
-      case 0:
-        return 0;
-      default:
-        return 0;
-    }
-  };
-
   return (
-    <div>
+    <div className="">
       <h1 className="text-center font-bold text-xl p-4">Leaderboards</h1>
-      <button onClick={() => calculateTotalPoints(submissions)}></button>
-      <div className="flex justify-center gap-8 flex-wrap ">
-        {/* <div className="bg-red-400 w-28 h-28"></div>
-        <div className="bg-red-400 w-28 h-28"></div> */}
-        <table className="shadow-lg bg-white rounded-lg w-40 ">
-          <thead className="">
-            <tr>
-              <th className="bg-blue-300 text-left px-8 py-4 rounded-tl-lg">
-                Name
-              </th>
-              <th className="bg-blue-300  text-left px-8 py-4 rounded-tr-lg">
-                Points
-              </th>
+      <div className="grid grid-cols lg:grid-cols-2 justify-items-center gap-4">
+        <Table title={"Total Points"}>
+          {pointsLeaderBoard.map((user: any) => (
+            <tr key={user.users} className="even:bg-gray-200 ">
+              <td className="border border-r-gray-300 px-8 py-4">
+                {user.users}
+              </td>
+              <td className="border px-8 py-4">{user.total_points}</td>
             </tr>
-          </thead>
-          <tbody>
-            {pointsLeaderBoard.map((user: any) => (
-              <tr key={user.users}>
-                <td className="border px-8 py-4">{user.users}</td>
-                <td className="border px-8 py-4">{user.total_points}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </Table>
 
-        <table className="shadow-lg bg-white rounded-lg w-40">
-          <thead className="">
-            <tr>
-              <th className="bg-blue-300 text-left px-8 py-4 rounded-tl-lg">
-                Name
-              </th>
-              <th className="bg-blue-300  text-left px-8 py-4 rounded-tr-lg">
-                Average Guesses
-              </th>
+        <Table title={"Average Points"}>
+          {averageLeaderBoard.map((user: any) => (
+            <tr key={user.users} className="even:bg-gray-200">
+              <td className="border border-r-gray-300 px-8 py-4">
+                {user.users}
+              </td>
+              <td className="border px-8 py-4">{user.average}</td>
             </tr>
-          </thead>
-          <tbody>
-            {averageLeaderBoard.map((user: any) => (
-              <tr key={user.users}>
-                <td className="border px-8 py-4">{user.users}</td>
-                <td className="border px-8 py-4">{user.average}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+          ))}
+        </Table>
       </div>
     </div>
   );

@@ -151,4 +151,5 @@ export {
   calculateTotalPoints,
   calculateAverage,
   combineData,
+  guessToPoints,
 };
