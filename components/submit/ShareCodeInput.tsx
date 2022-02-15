@@ -7,6 +7,7 @@ import {
   colorToColorBlind,
   whiteToBlack,
 } from "../../util/functions";
+import { motion } from "framer-motion";
 const ShareCodeInput = () => {
   const [submitting, setSubmitting] = useState(false);
   const [inputValue, setInputValue] = useState("");
@@ -71,7 +72,20 @@ const ShareCodeInput = () => {
   };
 
   return (
-    <div className="bg-white py-8 px-6 shadow rounded-lg sm:px-10">
+    <motion.div
+      initial={{ y: 800, opacity: 0 }}
+      animate={{
+        y: 0,
+        opacity: 1,
+        transition: {
+          type: "spring",
+          stiffness: 100,
+          damping: 10,
+          // delay: 0.5,
+        },
+      }}
+      className="bg-white py-8 px-6 shadow rounded-lg sm:px-10"
+    >
       <form className="mb-0 space-y-6" onSubmit={handleSubmit}>
         <div>
           <label
@@ -130,7 +144,7 @@ const ShareCodeInput = () => {
           {error && <p>{error}</p>}
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 

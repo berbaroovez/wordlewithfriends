@@ -10,7 +10,9 @@ const Navbar = () => {
       <div className="mx-8 grid justify-between grid-flow-col items-center py-2 font-medium">
         <div>
           <Link href="/">
-            <WWFIcon />
+            <div className="hover:cursor-pointer">
+              <WWFIcon />
+            </div>
           </Link>
         </div>
         <div>
