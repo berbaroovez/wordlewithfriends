@@ -1,15 +1,16 @@
 import { useAuth } from "../util/auth";
 import Link from "next/link";
 import DropdownBasic from "./Dropdown";
+import WWFIcon from "./Icon";
 const Navbar = () => {
   const { user, signIn, signOut } = useAuth();
 
   return (
-    <div className="bg-slate-400">
+    <div className="bg-slate-800 mb-16">
       <div className="mx-8 grid justify-between grid-flow-col items-center py-2 font-medium">
         <div>
           <Link href="/">
-            <a>WwF</a>
+            <WWFIcon />
           </Link>
         </div>
         <div>
